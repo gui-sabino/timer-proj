@@ -56,16 +56,19 @@
 
         .dark-mode {
             background-color: #222;
-            color: rgb(208, 208, 208);;
+            color: rgb(208, 208, 208);
+            ;
         }
 
         .dark-mode .timer {
-            color: rgb(208, 208, 208);;
+            color: rgb(208, 208, 208);
+            ;
         }
 
         .dark-mode .button {
             background-color: #555;
-            color: rgb(208, 208, 208);;
+            color: rgb(208, 208, 208);
+            ;
         }
 
         .dark-mode .button:hover {
@@ -92,7 +95,7 @@
 <body>
     <div class="container">
         <h1>Cronômetro</h1>
-        <div class="timer">00:00:00</div>
+        <div class="timer">00:00:00:00</div>
         <div class="buttons">
             <button class="button" id="start">Iniciar</button>
             <button class="button hidden" id="pause">Pausar</button>
@@ -112,6 +115,7 @@
         let hours = 0;
         let minutes = 0;
         let seconds = 0;
+        let milliseconds = 0;
         let timerInterval = null;
         var timer;
         var isRunning = false;
@@ -121,6 +125,7 @@
             hours = 0;
             minutes = 0;
             seconds = 0;
+            milliseconds = 0;
             updateTimer();
         }
 
@@ -129,7 +134,7 @@
             pauseButton.classList.remove('hidden');
 
             if (!isRunning) {
-                timer = setInterval(updateTimer, 1000);
+                timer = setInterval(updateTimer, 10);
                 isRunning = true;
             }
         }
@@ -140,7 +145,7 @@
                 isRunning = false;
                 pauseButton.textContent = 'Retomar';
             } else {
-                timer = setInterval(updateTimer, 1000);
+                timer = setInterval(updateTimer, 10);
                 isRunning = true;
                 pauseButton.textContent = 'Pausar';
             }
@@ -157,20 +162,25 @@
 
         function updateTimer() {
             if (isRunning) {
-                seconds++;
+                milliseconds += 10;
 
-                if (seconds === 60) {
-                    seconds = 0;
-                    minutes++;
+                if (milliseconds === 1000) {
+                    milliseconds = 0;
+                    seconds++;
 
-                    if (minutes === 60) {
-                        minutes = 0;
-                        hours++;
+                    if (seconds === 60) {
+                        seconds = 0;
+                        minutes++;
+
+                        if (minutes === 60) {
+                            minutes = 0;
+                            hours++;
+                        }
                     }
                 }
             }
 
-            const formattedTime = `${leadingZero(hours)}:${leadingZero(minutes)}:${leadingZero(seconds)}`;
+            const formattedTime = `${leadingZero(hours)}:${leadingZero(minutes)}:${leadingZero(seconds)}:${leadingZero(milliseconds).slice(0, 2)}`;
             timerElement.textContent = formattedTime;
         }
 
