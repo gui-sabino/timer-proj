@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .dark-mode {
+            background-color: #222;
+        }
+
+        .dark-mode .timer {
+            color: #fff;
+        }
+
+        .dark-mode .button {
+            background-color: #555;
+        }
+
+        .dark-mode .button:hover {
+            background-color: #333;
+        }
+
+        #darkMode {
+            
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 0.8rem;
+            font-size: 0.7rem;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cronômetro</h1>
+        <div class="timer">00:00:00</div>
+        <button class="button" id="start">Iniciar</button>
+        <button class="button hidden" id="pause">Pausar</button>
+        <button class="button" id="reset">Resetar</button>
+        <button class="button" id="darkMode">Dark Mode</button>
+    </div>
+    
+
+    <script>
+        var timerElement = document.querySelector('.timer');
+        var startButton = document.getElementById('start');
+        var pauseButton = document.getElementById('pause');
+        var resetButton = document.getElementById('reset');
+        var darkModeButton = document.getElementById('darkMode');
+        var bodyElement = document.body;
+
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let timerInterval = null;
+        var timer;
+        var isRunning = false;
+        var isDarkMode = false;
+
+        function initializeTimer() {
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            updateTimer();
+        }
+
+        function startTimer() {
+            startButton.classList.add('hidden');
+            pauseButton.classList.remove('hidden');
+
+            if (!isRunning) {
+                timer = setInterval(updateTimer, 1000);
+                isRunning = true;
+            }
+        }
+
+        function pauseTimer() {
+            if (isRunning) {
+                clearInterval(timer);
+                isRunning = false;
+                pauseButton.textContent = 'Retomar';
+            } else {
+                timer = setInterval(updateTimer, 1000);
+                isRunning = true;
+                pauseButton.textContent = 'Pausar';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            pauseButton.textContent = 'Pausar';
+            startButton.classList.remove('hidden');
+            pauseButton.classList.add('hidden');
+            initializeTimer();
+        }
+
+        function updateTimer() {
+            if (isRunning) {
+                seconds++;
+
+                if (seconds === 60) {
+                    seconds = 0;
+                    minutes++;
+
+                    if (minutes === 60) {
+                        minutes = 0;
+                        hours++;
+                    }
+                }
+            }
+
+            const formattedTime = `${leadingZero(hours)}:${leadingZero(minutes)}:${leadingZero(seconds)}`;
+            timerElement.textContent = formattedTime;
+        }
+
+        function leadingZero(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+
+        function toggleDarkMode() {
+            bodyElement.classList.toggle('dark-mode');
+            isDarkMode = !isDarkMode;
+        }
+
+        initializeTimer();
+        startButton.addEventListener('click', startTimer);
+        pauseButton.addEventListener('click', pauseTimer);
+        resetButton.addEventListener('click', resetTimer);
+        darkModeButton.addEventListener('click', toggleDarkMode);
+    </script>
+</body>
+
+</html>
