@@ -11,17 +11,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 90vh;
             font-family: Arial, sans-serif;
             transition: background-color 0.3s ease;
         }
 
         .container {
             text-align: center;
+            padding: 1rem;
+            max-width: 100%;
+            width: 100%;
         }
 
         .timer {
             font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
             margin-bottom: 1rem;
         }
 
@@ -46,20 +55,16 @@
         }
 
         .dark-mode {
-            background-color: rgb(27, 26, 26);
+            background-color: #222;
+            color: #fff;
         }
 
         .dark-mode .timer {
-            color: rgb(208, 208, 208);
-        }
-
-        .dark-mode .title {
-            color: rgb(208, 208, 208);
+            color: #fff;
         }
 
         .dark-mode .button {
             background-color: #555;
-            color: rgb(208, 208, 208);
         }
 
         .dark-mode .button:hover {
@@ -67,27 +72,33 @@
         }
 
         #darkMode {
-            position: fixed;
+            position: absolute;
             bottom: 1rem;
             left: 50%;
             transform: translateX(-50%);
-            padding: 0.5rem 0.8rem;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
+            margin-top: 1rem;
         }
-        
+
+        @media (max-width: 480px) {
+            .timer {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="title">Cronômetro</h1>
+        <h1>Cronômetro</h1>
         <div class="timer">00:00:00</div>
-        <button class="button" id="start">Iniciar</button>
-        <button class="button hidden" id="pause">Pausar</button>
-        <button class="button" id="reset">Resetar</button>
+        <div class="buttons">
+            <button class="button" id="start">Iniciar</button>
+            <button class="button hidden" id="pause">Pausar</button>
+            <button class="button" id="reset">Resetar</button>
+        </div>
         <button class="button" id="darkMode">Dark Mode</button>
     </div>
-    
 
     <script>
         var timerElement = document.querySelector('.timer');
