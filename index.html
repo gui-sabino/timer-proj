@@ -46,15 +46,20 @@
         }
 
         .dark-mode {
-            background-color: #222;
+            background-color: rgb(27, 26, 26);
         }
 
         .dark-mode .timer {
-            color: #fff;
+            color: rgb(208, 208, 208);
+        }
+
+        .dark-mode .title {
+            color: rgb(208, 208, 208);
         }
 
         .dark-mode .button {
             background-color: #555;
+            color: rgb(208, 208, 208);
         }
 
         .dark-mode .button:hover {
@@ -62,7 +67,6 @@
         }
 
         #darkMode {
-            
             position: fixed;
             bottom: 1rem;
             left: 50%;
@@ -76,7 +80,7 @@
 
 <body>
     <div class="container">
-        <h1>Cronômetro</h1>
+        <h1 class="title">Cronômetro</h1>
         <div class="timer">00:00:00</div>
         <button class="button" id="start">Iniciar</button>
         <button class="button hidden" id="pause">Pausar</button>
